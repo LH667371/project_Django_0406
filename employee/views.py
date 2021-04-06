@@ -2,8 +2,8 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, CreateModelMixin, DestroyModelMixin, \
     UpdateModelMixin
 
-from employee.models import Employee
-from employee.serializers import EmpModelSerializer
+from employee.models import Employee, Department
+from employee.serializers import EmpModelSerializer, DepartModelSerializer
 # Create your views here.
 from utils.response import APIResponse
 
@@ -39,3 +39,15 @@ class EmpAPIView(GenericAPIView,
         # print(request.data)
         self.partial_update(request, *args, **kwargs)
         return APIResponse(200, message="修改成功")
+
+
+class DepartAPIView(GenericAPIView,
+                    ListModelMixin,
+                    RetrieveModelMixin,
+                    ):
+    queryset = Department.objects.all()
+    serializer_class = DepartModelSerializer
+    def get(self, request, *args, **kwargs):
+        if 'pk' in kwargs:
+            return self.retrieve(request, *args, **kwargs)
+        return self.list(request, *args, **kwargs)

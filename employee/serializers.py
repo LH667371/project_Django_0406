@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 
-from employee.models import Employee
+from employee.models import Employee, Department
 
 
 class EmpModelSerializer(ModelSerializer):
@@ -25,3 +25,8 @@ class EmpModelSerializer(ModelSerializer):
         except:
             attrs['id'] = 1
         return attrs
+
+class DepartModelSerializer(ModelSerializer):
+    class Meta:
+        model = Department
+        fields = '__all__'
