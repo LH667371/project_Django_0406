@@ -26,7 +26,7 @@ class Employee(models.Model):
     age = models.CharField(max_length=255, verbose_name='年龄')
     gender = models.SmallIntegerField(choices=gender_choices, verbose_name='性别')
     birthday = models.DateField(verbose_name='生日')
-    head_pic = models.ImageField(upload_to='pic', null=True, verbose_name='头像', default='pic/1G226143519-7.jpg')
+    head_pic = models.ImageField(upload_to='pic', null=True, verbose_name='头像')
     depart = models.ForeignKey(to=Department, on_delete=models.CASCADE, verbose_name='部门')
 
     @property
