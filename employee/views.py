@@ -17,10 +17,9 @@ class EmpAPIView(GenericAPIView,
                  ):
     queryset = Employee.objects.all()
     serializer_class = EmpModelSerializer
-    lookup_field = 'id'
 
     def get(self, request, *args, **kwargs):
-        if 'id' in kwargs:
+        if 'pk' in kwargs:
             return self.retrieve(request, *args, **kwargs)
         return self.list(request, *args, **kwargs)
 
@@ -34,5 +33,6 @@ class EmpAPIView(GenericAPIView,
         return self.update(request, *args, **kwargs)
 
     def patch(self, request, *args, **kwargs):
+        # print(request.data)
         self.partial_update(request, *args, **kwargs)
         return APIResponse(200, message="修改成功")

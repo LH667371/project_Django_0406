@@ -14,7 +14,14 @@ class EmpModelSerializer(ModelSerializer):
             'sex': {
                 'read_only': True,
             },
-            'id': {
-                'read_only': True,
-            }
         }
+
+    def validate(self, attrs):
+        try:
+            if not self.initial_data['id']:
+                attrs['id'] = Employee.objects.values('id').last()['id'] + 1
+            else:
+                attrs['id'] = self.initial_data['id']
+        except:
+            attrs['id'] = 1
+        return attrs
