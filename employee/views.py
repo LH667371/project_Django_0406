@@ -25,10 +25,13 @@ class EmpAPIView(GenericAPIView,
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
+        # print(request.data)
+        # return APIResponse(200, 'ok')
 
     def delete(self, request, *args, **kwargs):
         self.destroy(request, *args, **kwargs)
         return APIResponse(200, message="删除成功")
+
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
