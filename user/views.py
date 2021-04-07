@@ -44,24 +44,3 @@ class User(APIView):
         except Exception as e:
             print(e)
             return APIResponse(400, message="您提交的注册信息有误")
-
-
-class Captcha(APIView):
-    # 验证码视图
-    def get(self, request, *args, **kwargs):
-        # 声明一个图片验证码对象
-        image = ImageCaptcha()
-        # 生成随机的4位验证码
-        code = random.sample(string.ascii_letters + string.digits, 4)
-        code = ''.join(code)
-        print(code)
-        print(request.session.session_key)
-        request.session['code'] = code.lower()
-        # 将验证码写入图片中
-        data = image.generate(code)
-        return HttpResponse(data, 'image/png')
-
-    def post(self, request, *args, **kwargs):
-        print(request.session.session_key)
-        print(request.session.get('code'))
-        return APIResponse('ok')
