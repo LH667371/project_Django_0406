@@ -8,6 +8,7 @@ class User(models.Model):
         (1, "女"),
         (2, "其他"),
     )
+    username = models.CharField(max_length=255, unique=True, verbose_name='账号')
     email = models.CharField(max_length=255, unique=True, verbose_name='邮箱')
     phone = models.CharField(max_length=255, unique=True, verbose_name='手机号')
     password = models.CharField(max_length=255, verbose_name='密码')
@@ -21,4 +22,4 @@ class User(models.Model):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return self.email
+        return self.username

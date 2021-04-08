@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
+import datetime
 import os
 from pathlib import Path
 
@@ -129,4 +130,24 @@ CORS_ORIGIN_ALLOW_ALL = True
 REST_FRAMEWORK = {
     # 全局异常处理
     "EXCEPTION_HANDLER": "utils.exceptions.exception_handler"
+}
+
+# jwt相关配置
+JWT_AUTH = {
+    # user ==> 载荷
+    'JWT_PAYLOAD_HANDLER':
+        'rest_framework_jwt.utils.jwt_payload_handler',
+    # 载荷 ==> token
+    'JWT_ENCODE_HANDLER':
+        'rest_framework_jwt.utils.jwt_encode_handler',
+
+    # token ==> 载荷
+    'JWT_DECODE_HANDLER':
+        'rest_framework_jwt.utils.jwt_decode_handler',
+
+    # token的有效期
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=300),
+
+    # jwt token的前缀
+    'JWT_AUTH_HEADER_PREFIX': 'AUTH',
 }

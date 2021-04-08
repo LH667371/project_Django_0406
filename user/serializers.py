@@ -15,6 +15,12 @@ class UserModelSerializer(ModelSerializer):
         # fields = ('email', 'password', 'salt')
 
         extra_kwargs = {
+            'username': {
+                'min_length': 4,
+                'error_messages': {
+                    'min_length': '长度太短了'
+                }
+            },
             'email': {
                 'min_length': 4,
                 'error_messages': {
@@ -30,7 +36,7 @@ class UserModelSerializer(ModelSerializer):
             },
             'password': {
                 'required': True,
-                "write_only": True,
+                'write_only': True,
                 'error_messages': {
                     'required': '密码必填',
                 }
@@ -68,4 +74,5 @@ class UserModelSerializer(ModelSerializer):
         attrs['salt'] = ''.join(
             random.sample(string.ascii_letters + string.digits + string.punctuation, random.randint(5, 10)))
         attrs['password'] = (hashlib.md5(attrs['password'].encode() + attrs['salt'].encode())).hexdigest()
+        print(attrs)
         return attrs

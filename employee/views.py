@@ -1,7 +1,9 @@
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, CreateModelMixin, DestroyModelMixin, \
     UpdateModelMixin
+from rest_framework.permissions import IsAuthenticated
 
+from employee.jwt_authentication import JWTAuthentication
 from employee.models import Employee, Department
 from employee.serializers import EmpModelSerializer, DepartModelSerializer
 # Create your views here.
@@ -17,6 +19,10 @@ class EmpAPIView(GenericAPIView,
                  ):
     queryset = Employee.objects.all()
     serializer_class = EmpModelSerializer
+    # 登录用户才可以访问
+    permission_classes = [IsAuthenticated]
+    # 解析访问此视图请求中携带的 jwt token
+    authentication_classes = [JWTAuthentication]
 
     def get(self, request, *args, **kwargs):
         if 'pk' in kwargs:
@@ -47,6 +53,7 @@ class DepartAPIView(GenericAPIView,
                     ):
     queryset = Department.objects.all()
     serializer_class = DepartModelSerializer
+
     def get(self, request, *args, **kwargs):
         if 'pk' in kwargs:
             return self.retrieve(request, *args, **kwargs)
