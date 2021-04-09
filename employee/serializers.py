@@ -1,3 +1,4 @@
+from rest_framework import exceptions
 from rest_framework.serializers import ModelSerializer
 
 from employee.models import Employee, Department
@@ -15,7 +16,6 @@ class EmpModelSerializer(ModelSerializer):
                 'read_only': True,
             },
         }
-
     def validate(self, attrs):
         try:
             if not self.initial_data['id']:

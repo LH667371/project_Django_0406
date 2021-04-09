@@ -23,7 +23,7 @@ class Employee(models.Model):
     )
     name = models.CharField(max_length=255, verbose_name='姓名')
     salary = models.FloatField(verbose_name='工资')
-    age = models.CharField(max_length=255, verbose_name='年龄')
+    age = models.SmallIntegerField(verbose_name='年龄')
     gender = models.SmallIntegerField(choices=gender_choices, verbose_name='性别')
     birthday = models.DateField(verbose_name='生日')
     head_pic = models.ImageField(upload_to='pic', null=True, verbose_name='头像')

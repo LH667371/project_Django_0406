@@ -24,9 +24,9 @@ class JWTAuthentication(BaseJSONWebTokenAuthentication):
             # 通过token解析出载荷
             payload = jwt_decode_handler(token)
         except jwt.ExpiredSignature:
-            raise exceptions.AuthenticationFailed('签名已过期')
+            raise exceptions.AuthenticationFailed('登录状态已过期，请重新登录')
         except jwt.DecodeError:
-            raise exceptions.AuthenticationFailed("签名不合法")
+            raise exceptions.AuthenticationFailed("登录不合法")
         except jwt.InvalidTokenError:
             raise exceptions.AuthenticationFailed()
 

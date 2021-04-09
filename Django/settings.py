@@ -146,7 +146,7 @@ JWT_AUTH = {
         'rest_framework_jwt.utils.jwt_decode_handler',
 
     # token的有效期
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=300),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=60*60*5),
 
     # jwt token的前缀
     'JWT_AUTH_HEADER_PREFIX': 'AUTH',
