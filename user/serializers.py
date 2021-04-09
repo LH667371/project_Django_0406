@@ -74,5 +74,4 @@ class UserModelSerializer(ModelSerializer):
         attrs['salt'] = ''.join(
             random.sample(string.ascii_letters + string.digits + string.punctuation, random.randint(5, 10)))
         attrs['password'] = (hashlib.md5(attrs['password'].encode() + attrs['salt'].encode())).hexdigest()
-        print(attrs)
         return attrs

@@ -15,6 +15,8 @@ jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 # Create your views here.
 
 class User(APIView):
+    authentication_classes = ()
+    permission_classes = ()
     def post(self, request, *args, **kwargs):
         account = request.data.get('account')
         password = request.data.get('pwd')
@@ -36,14 +38,14 @@ class User(APIView):
             return APIResponse(402, message="密码输入错误")
 
 class UserRegister(APIView):
+    authentication_classes = ()
+    permission_classes = ()
     def post(self, request, *args, **kwargs):
         request_data = request.data
         try:
             serializer = UserModelSerializer(data=request_data)
             serializer.is_valid(raise_exception=True)
             admin_obj = serializer.save()
-            # name = UserData.objects.filter(Q(email=UserModelSerializer(admin_obj).data['email']) | Q(
-            #     phone=UserModelSerializer(admin_obj).data['phone'])).values('name')
             if admin_obj:
                 return APIResponse(200, True)
         except Exception as e:
