@@ -22,7 +22,7 @@ class Employee(models.Model):
         (2, "其他"),
     )
     name = models.CharField(max_length=255, verbose_name='姓名')
-    salary = models.FloatField(verbose_name='工资')
+    salary = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='工资')
     age = models.SmallIntegerField(verbose_name='年龄')
     gender = models.SmallIntegerField(choices=gender_choices, verbose_name='性别')
     birthday = models.DateField(verbose_name='生日')

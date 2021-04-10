@@ -1,13 +1,18 @@
-from rest_framework.generics import GenericAPIView
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.generics import GenericAPIView, ListAPIView
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, CreateModelMixin, DestroyModelMixin, \
     UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
 
 from employee.jwt_authentication import JWTAuthentication
 from employee.models import Employee, Department
+from employee.pagination import MyPageNumberPagination
 from employee.serializers import EmpModelSerializer, DepartModelSerializer
-# Create your views here.
 from utils.response import APIResponse
+
+
+# Create your views here.
 
 
 class EmpAPIView(GenericAPIView,
@@ -15,7 +20,7 @@ class EmpAPIView(GenericAPIView,
                  RetrieveModelMixin,
                  DestroyModelMixin,
                  CreateModelMixin,
-                 UpdateModelMixin
+                 UpdateModelMixin,
                  ):
     queryset = Employee.objects.all()
     serializer_class = EmpModelSerializer
@@ -53,8 +58,26 @@ class DepartAPIView(GenericAPIView,
                     ):
     queryset = Department.objects.all()
     serializer_class = DepartModelSerializer
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
 
     def get(self, request, *args, **kwargs):
         if 'pk' in kwargs:
             return self.retrieve(request, *args, **kwargs)
         return self.list(request, *args, **kwargs)
+
+
+class SerchEmpAPIView(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    queryset = Employee.objects.all()
+    serializer_class = EmpModelSerializer
+    # 指定当前视图要使用的过滤器类
+    filter_backends = [SearchFilter, OrderingFilter, DjangoFilterBackend]
+    # 指定当前视图的搜索条件  通过哪个字段进行搜索
+    search_fields = ['id', 'name', 'salary', 'depart__department', 'age']
+    # 指定排序的字段
+    ordering = ['id']
+    # filter_class = EmployeeFilter
+    pagination_class = MyPageNumberPagination

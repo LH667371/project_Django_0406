@@ -23,7 +23,7 @@ class EmpModelSerializer(ModelSerializer):
             else:
                 attrs['id'] = self.initial_data['id']
         except:
-            attrs['id'] = 1
+            attrs['id'] = 1000
         return attrs
 
 class DepartModelSerializer(ModelSerializer):
